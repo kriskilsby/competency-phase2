@@ -1,0 +1,15 @@
+{
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "46.101.40.132",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "DigitalOcean – competency",
+            "database": "competency_db",
+            "username": "competency_user",
+            "password": "IwCDeBtD08!"
+        }
+    ]
+}
