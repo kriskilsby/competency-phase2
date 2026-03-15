@@ -8,6 +8,7 @@ dotenv.config({ path: './.env' });
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // backend/src/main.ts
   // 🔹 Enable CORS
   app.enableCors({
     origin: [
