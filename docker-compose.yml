@@ -9,16 +9,18 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+    env_file:
+    - .env
     command: npm run start:dev
 
   frontend:
     build: ./frontend
     container_name: competency_frontend
     ports:
-      - "3000:3000"
+      - "3002:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:3001
-    command: npm run dev
+      - NEXT_PUBLIC_API_URL=/api
+    command: npm start
