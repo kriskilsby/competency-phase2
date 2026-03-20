@@ -1,3 +1,4 @@
+# frontend/Dockerfile.dev
 # Use Node 20 LTS
 FROM node:20-bullseye
 
