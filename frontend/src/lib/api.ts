@@ -3,10 +3,23 @@
 
 // const API_BASE = process.env.NEXT_PUBLIC_API_URL!;
 
+// ### kk this was last used code before change ###
+// const API_BASE =
+//   typeof window === "undefined"
+//     ? "http://backend:3001"     // server-side (Docker to Docker)
+//     : "http://localhost:3001";  // browser → host
+// ### kk this was last used code before change ###
+
+// API_BASE resolves differently depending on environment
+// const API_BASE =
+//   typeof window === "undefined"              // server-side (Next.js SSR)
+//     ? process.env.NEXT_PUBLIC_API_URL || "http://backend:3001"  // inside Docker or prod
+//     : process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"; // browser side
+
 const API_BASE =
   typeof window === "undefined"
-    ? "http://backend:3001"     // server-side (Docker to Docker)
-    : "http://localhost:3001";  // browser → host
+    ? process.env.NEXT_PUBLIC_API_URL_SERVER || "http://backend:3001" // server-side
+    : process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";      // browser
 
 // const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
