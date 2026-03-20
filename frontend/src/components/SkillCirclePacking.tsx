@@ -212,7 +212,7 @@ export default function SkillCirclePacking() {
   
 
     return (
-        <div className="bg-gray-800 shadow rounded-lg p-6 w-full">
+        <div className="bg-gray-900 shadow rounded-lg p-6 w-full">
         <h2 className="text-xl text-zinc-200 font-bold mb-4">Building Design Skills by Primary Sector</h2>
         <svg ref={svgRef} className="w-full h-[1100px]"></svg>
         </div>

@@ -27,7 +27,8 @@ services:
     #   - ./frontend:/app
     #   - /app/node_modules
     environment:
-      - NEXT_PUBLIC_API_URL=/api
+      # - NEXT_PUBLIC_API_URL=/api
+      - NEXT_PUBLIC_API_URL=http://competency.kriskilsby.com:3001
     # command: npm start
     command: npm run start:prod
     
