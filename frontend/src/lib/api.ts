@@ -5,47 +5,50 @@
 
 const API_BASE =
   typeof window === "undefined"
-    ? "http://backend:3001"     // server-side (inside Docker)
-    : "http://localhost:3001";  // browser
+    ? "http://backend:3001"     // server-side (Docker to Docker)
+    : "http://localhost:3001";  // browser → host
 
-console.log("API_BASE:", API_BASE);
+// const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
 if (!API_BASE) {
   throw new Error("NEXT_PUBLIC_API_URL is not defined");
 }
 
-export async function fetchEmployees() {
-  const res = await fetch(`${API_BASE}/employees`);
+console.log("API_BASE:", API_BASE);
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch employees");
+// if (!API_BASE) {
+//   throw new Error("NEXT_PUBLIC_API_URL is not defined");
+// }
+
+// fetch helper function with error handling
+async function safeFetch(url: string) {
+  try {
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error(`Request failed: ${url}`);
+    }
+
+    return await res.json();
+  } catch (err) {
+    console.log("API not ready:", url);
+    return null; // prevents crash
   }
+}
 
-  return res.json();
+// All fetches replaced with safeFetch function enabled with API_BASE
+export async function fetchEmployees() {
+  return safeFetch(`${API_BASE}/employees`);
 }
 
 export async function fetchCompetencies() {
-  const res = await fetch(`${API_BASE}/competencies`);
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch competencies");
-  }
-
-  return res.json();
+  return safeFetch(`${API_BASE}/competencies`);
 }
 
 export async function fetchDashboard() {
-  const res = await fetch(`${API_BASE}/dashboard/summary`);
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch dashboard data");
-  }
-
-  return res.json();
+  return safeFetch(`${API_BASE}/dashboard/summary`);
 }
 
 export async function fetchSkillVolumes() {
-  const res = await fetch(`${API_BASE}/dashboard/skill-volumes`);
-  if (!res.ok) throw new Error('Failed to fetch skill volumes');
-  return res.json();
+  return safeFetch(`${API_BASE}/dashboard/skill-volumes`);
 }

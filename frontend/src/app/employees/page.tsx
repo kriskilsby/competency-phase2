@@ -1,3 +1,4 @@
+// frontend/src/app/employees/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,9 +6,16 @@ import { fetchEmployees } from "@/lib/api";
 import { useRouter } from "next/navigation";
 
 interface Employee {
-  id: number;
-  name: string;
-  email: string;
+  e_id: number;
+  firstName: string;
+  lastName: string;
+  job: string;
+  legalEntity: string | null;
+  discipline: string | null;
+  projectsCount: number;
+  qualificationsCount: number;
+  cpdCount: number;
+  employmentHistoryCount: number;
 }
 
 export default function EmployeesPage() {

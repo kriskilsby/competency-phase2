@@ -1,0 +1,28 @@
+# docker-compose.override.yml
+version: "3.9"
+
+services:
+
+  backend:
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm run start:dev   # Nest watch mode
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: competency_frontend
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./frontend:/app               # Mount source code
+      - ./frontend/package.json:/app/package.json  # Sync package.json
+      - /app/node_modules             # Keep container node_modules isolated
+      - /app/.next                    # Keep Next.js build cache isolated
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: npm run dev             # Run Next.js dev server

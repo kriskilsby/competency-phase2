@@ -4,6 +4,7 @@
 import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import { fetchSkillVolumes } from '@/lib/api';
+import { HierarchyCircularNode } from 'd3';
 
 type SkillRow = {
   sector: string;
@@ -45,7 +46,7 @@ export default function SkillCirclePacking() {
 
         const root = d3
             .hierarchy<SkillNode>(data)
-            .sum(d => d.value ?? 0)
+            .sum(d => d.value || 0)
             .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
 
         const maxValue = d3.max(root.descendants(), d => d.value) || 1;
@@ -55,21 +56,27 @@ export default function SkillCirclePacking() {
             .interpolator(d3.interpolateBlues);
 
         const packedRoot = d3.pack<SkillNode>()
-            .size([width - 2, height - 2])
-            .padding(10)(root)
+            .size([width, height])
+            .padding(3)(root)
 
         let focus = packedRoot;
-        let view: number[];    
+        let view: [number, number, number] = [
+            packedRoot.x,
+            packedRoot.y,
+            packedRoot.r * 2
+            ];    
 
         const svg = d3
             .select(svgRef.current)
+        // const svg = d3
+        //     .select<SVGSVGElement, unknown>("svg")
             .attr('width', width)
             .attr('height', height)
             .attr('viewBox', `0 0 ${width} ${height}`);
             // .style('background', '#f0f0f0'); // using container styling instead
 
         const nodes = svg
-            .selectAll('g')
+            .selectAll<SVGGElement, HierarchyCircularNode<SkillNode>>("g")
             .data(packedRoot.descendants())
             .join('g')
             .attr('transform', d => `translate(${d.x},${d.y})`)
@@ -102,20 +109,22 @@ export default function SkillCirclePacking() {
             .style("pointer-events", "none")
             .style("cursor", "pointer");  
 
-        let tooltip = d3.select('#skill-tooltip');
+        let tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any> =
+            d3.select<HTMLDivElement, unknown>('#skill-tooltip');
 
         if (tooltip.empty()) {
-        tooltip = d3.select('body')
-            .append('div')
-            .attr('id', 'skill-tooltip')
-            .style('position', 'absolute')
-            .style('background', 'rgba(0,0,0,0.7)')
-            .style('color', '#fff')
-            .style('padding', '5px 10px')
-            .style('border-radius', '4px')
-            .style('pointer-events', 'none')
-            .style('opacity', 0);
-        }
+            tooltip = d3
+                .select<HTMLDivElement, unknown>('body')
+                .append('div')
+                .attr('id', 'skill-tooltip')
+                .style('position', 'absolute')
+                .style('background', 'rgba(0,0,0,0.7)')
+                .style('color', '#fff')
+                .style('padding', '5px 10px')
+                .style('border-radius', '4px')
+                .style('pointer-events', 'none')
+                .style('opacity', 0);
+            }
 
         nodes
             .on('mouseover', (event, d) => {
@@ -144,30 +153,38 @@ export default function SkillCirclePacking() {
                 .attr("stroke-width", 1.2);
             });
 
-        function zoom(event: any, d: any) {
+        function zoom(
+            event: d3.D3ZoomEvent<SVGSVGElement, unknown>,
+            d: d3.HierarchyCircularNode<SkillNode>
+            ) {
             focus = d;
 
-            const transition = svg.transition()
+            nodes
+                .transition()
                 .duration(750)
                 .tween("zoom", () => {
-                const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
-                return t => zoomTo(i(t));
-                });
+                    const i = d3.interpolateZoom(view, [
+                    focus.x,
+                    focus.y,
+                    focus.r * 2
+                    ]);
+                    return t => zoomTo(i(t));
+            });
 
-            nodes
-                .transition(transition)
-                .attr("transform", node =>
-                `translate(${(node.x - focus.x) * (width / (focus.r * 2)) + width / 2},
-                            ${(node.y - focus.y) * (height / (focus.r * 2)) + height / 2})`
-                );
+            // nodes
+            //     .transition(transition)
+            //     .attr("transform", node =>
+            //     `translate(${(node.x - focus.x) * (width / (focus.r * 2)) + width / 2},
+            //                 ${(node.y - focus.y) * (height / (focus.r * 2)) + height / 2})`
+            //     );
 
-            nodes.select("circle")
-                .transition(transition)
-                .attr("r", node => node.r * (width / (focus.r * 2)));
-            
-        } 
+            // nodes
+            //     .select("circle")
+            //     .transition(transition)
+            //     .attr("r", node => node.r * (width / (focus.r * 2)));
+        }
         
-        function zoomTo(v: number[]) {
+        function zoomTo(v: [number, number, number]) {
             const k = width / v[2];
             view = v;
 
@@ -181,7 +198,8 @@ export default function SkillCirclePacking() {
             nodes.select("text")
                 .attr("font-size", d => Math.max(10, Math.min((d.r * k) / 2.5, 32)));
         }
-        zoomTo([packedRoot.x, packedRoot.y, packedRoot.r * 2]);
+        // zoomTo([packedRoot.x, packedRoot.y, packedRoot.r * 2]);
+        zoomTo(view);
     }
 
     useEffect(() => {
@@ -194,8 +212,8 @@ export default function SkillCirclePacking() {
   
 
     return (
-        <div className="bg-black shadow rounded-lg p-6 w-full">
-        <h2 className="text-xl text-zinc-200 font-bold mb-4">Buiding Design Skills by Primary Sector</h2>
+        <div className="bg-gray-800 shadow rounded-lg p-6 w-full">
+        <h2 className="text-xl text-zinc-200 font-bold mb-4">Building Design Skills by Primary Sector</h2>
         <svg ref={svgRef} className="w-full h-[1100px]"></svg>
         </div>
     );

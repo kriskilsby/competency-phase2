@@ -15,12 +15,15 @@ async function bootstrap() {
       'http://localhost:3000',            // local dev
       'http://localhost:3001',            // local dev alternative
       'http://46.101.40.132:3001',        // DO server testing
+      'http://localhost:3002',            // docker frontend
       'https://www.kriskilsby.com',       // live frontend
       'https://www.kriskilsby.com/competency-phase1', // live frontend subpath
     ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   });
+
+  console.log("CORS ENABLED");
 
   const port = Number(process.env.PORT || 3001);
   // await app.listen(port);
