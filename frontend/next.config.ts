@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 
   // Disable Turbopack entirely
-  turbopack: false,
+  turbopack: {},
 
   webpack: (config: WebpackConfig, { dev }: { dev: boolean }) => {
     if (dev) {
