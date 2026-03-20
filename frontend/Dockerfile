@@ -8,6 +8,9 @@ RUN npm install
 
 COPY . .
 
+# ADD THIS LINE
+RUN rm -f .env.local
+
 # RUN npm run build
 RUN npm run build --webpack
 
