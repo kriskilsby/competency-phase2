@@ -1,3 +1,4 @@
+# backend/Dockerfile
 # Use official Node image
 FROM node:20
 
@@ -17,4 +18,5 @@ COPY . .
 EXPOSE 3001
 
 # Start backend
-CMD ["npm", "run", "start:dev"]
+# CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "start:prod"]

@@ -16,4 +16,5 @@ RUN npm run build --webpack
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
+CMD ["npm", "run", "start:prod"]
