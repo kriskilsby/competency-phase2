@@ -14,6 +14,9 @@ RUN npm install
 # Copy the rest of the project
 COPY . .
 
+# ✅ THIS IS THE CRITICAL LINE
+RUN npm run build
+
 # NestJS backend port
 EXPOSE 3001
 
