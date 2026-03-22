@@ -19,13 +19,14 @@
 const API_BASE =
   typeof window === "undefined"
     ? process.env.NEXT_PUBLIC_API_URL_SERVER || "http://backend:3001" // server-side
-    : process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";      // browser
+    // : process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";      // browser
+    : process.env.NEXT_PUBLIC_API_URL || "/api";                       // client-side
 
 // const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
-if (!API_BASE) {
-  throw new Error("NEXT_PUBLIC_API_URL is not defined");
-}
+// if (!API_BASE) {
+//   throw new Error("NEXT_PUBLIC_API_URL is not defined");
+// }
 
 console.log("API_BASE:", API_BASE);
 

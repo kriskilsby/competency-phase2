@@ -35,6 +35,19 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
+
+  // ✅ Dev-only API rewrite to avoid localhost fetch issues
+  async rewrites() {
+    if (process.env.NODE_ENV === "development") {
+      return [
+        {
+          source: "/api/:path*",              // calls to /api/...
+          destination: "http://backend:3001/:path*", // go to backend container
+        },
+      ];
+    }
+    return [];
+  },
 };
 
 export default nextConfig;
