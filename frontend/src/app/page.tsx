@@ -20,7 +20,7 @@ export default async function Home() {
   // REAL render (data is guaranteed)
   return (
     <div>
-      <h1 className="text-3xl font-bold text-zinc-200 mb-8">
+      <h1 className="text-secondary font-medium mb-4 text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl pl-32 p-2">
         Building Design Dashboard
       </h1>
 
@@ -73,7 +73,7 @@ export default async function Home() {
 
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 pb-10">
+      <div className="max-w-7xl mx-auto px-4 pb-10 min-w-0 overflow-x-hidden">
         <SkillCirclePacking />
       </div>
     </div>

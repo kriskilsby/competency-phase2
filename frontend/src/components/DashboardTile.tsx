@@ -33,7 +33,7 @@ export default function DashboardTile({
   return (
     <a
       href={link}
-      className="bg-white border-5 border-zinc-200 rounded-lg shadow p-4 h-48 flex flex-col justify-center items-center text-center hover:shadow-md transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-[#E73D5C]"
+      className="bg-white border-5 border-zinc-200 rounded-lg shadow p-4 h-48 flex flex-col justify-center items-center text-center hover:shadow-md transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-105 hover:bg-dash-tile-bg"
     >
       <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
 
@@ -48,7 +48,7 @@ export default function DashboardTile({
               : "opacity-100 translate-y-0"
           }`}
         >
-          <p className="text-4xl font-bold text-gray-900">{total}</p>
+          <p className="text-4xl font-bold text-tile-total-text">{total}</p>
           <p className="text-sm text-gray-600 mt-1">{totalLabel}</p>
         </div>
 
@@ -60,7 +60,7 @@ export default function DashboardTile({
               : "opacity-0 -translate-y-6"
           }`}
         >
-          <p className="text-4xl font-bold text-green-600">{approved}</p>
+          <p className="text-4xl font-bold text-tile-approved-text">{approved}</p>
           <p className="text-sm text-gray-600 mt-1">{approvedLabel}</p>
         </div>
 

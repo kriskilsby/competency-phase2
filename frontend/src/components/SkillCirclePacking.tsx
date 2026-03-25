@@ -23,8 +23,14 @@ export default function SkillCirclePacking() {
         // Clear previous chart
         d3.select(svgRef.current).selectAll('*').remove();
 
-        const width = svgRef.current.clientWidth || 1200;
-        const height = 1200;
+        // const width = svgRef.current.clientWidth || 1200;
+        // const height = 1200;
+
+        const MIN_SIZE = 1000;
+
+        const containerWidth = svgRef.current.parentElement?.clientWidth || 1200;
+        const width = Math.max(containerWidth, MIN_SIZE);
+        const height = width; // keep it square
 
         // Prepare hierarchical data
         const data = {
@@ -210,11 +216,17 @@ export default function SkillCirclePacking() {
         .catch(console.error);
     }, []);
   
-
+    // text-secondary font-bold mb-4 text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl p-2
     return (
-        <div className="bg-gray-900 shadow rounded-lg p-6 w-full">
-        <h2 className="text-xl text-zinc-200 font-bold mb-4">Building Design Skills by Primary Sector</h2>
-        <svg ref={svgRef} className="w-full h-[1100px]"></svg>
+        <div className="bg-graph-bg shadow rounded-lg p-6 w-full min-w-0">
+        <h2 className="text-tertiary mb-4 text-2xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-3xl p-2">Building Design Skills by Primary Sector</h2>
+            <div className="w-full overflow-x-auto px-2 max-w-full">
+                <svg
+                    ref={svgRef}
+                    className="h-[1100px]block"
+                    style={{ minWidth: "1000px" }}
+                />
+            </div>
         </div>
     );
 }
