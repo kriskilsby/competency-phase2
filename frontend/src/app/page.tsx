@@ -73,7 +73,7 @@ export default async function Home() {
 
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 pb-10 min-w-0 overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-0 sm:px-1 md:px-4 lg:px-6 pb-10 min-w-0 overflow-x-hidden">
         <SkillCirclePacking />
       </div>
     </div>

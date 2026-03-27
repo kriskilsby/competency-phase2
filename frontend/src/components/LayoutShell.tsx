@@ -71,12 +71,12 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
 
         {/* Header */}
         <header
-          className={`sticky top-0 z-40 flex items-center justify-between bg-background dark:bg-graphite-900 transition-all duration-300
-          ${scrolled ? "py-2 md:px-6 shadow-md" : "p-4 md:px-6"}`}
+          className={`sticky top-0 z-40 flex items-center justify-between bg-background dark:bg-graphite-900 transition-all duration-300 px-4 sm:px-5 md:px-6
+          ${scrolled ? "py-2 shadow-md" : "py-4"}`}
         >
           
           {/* Left: Hamburger + Title */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 pl-04 md:pl-6">
             {/* Hamburger for mobile */}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -88,7 +88,6 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
             </button>
 
             {/* Title */}
-            {/* <h1 className="text-primary text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium p-2"> */}
             <h1
               className={`text-primary font-medium transition-all duration-1000
               ${scrolled ? "text-2xl md:text-4xl" : "text-4xl md:text-5xl lg:text-6xl xl:text-7xl"} p-2`}
@@ -98,12 +97,14 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
           </div>
 
           {/* Right: Dark/Light toggle */}
-          <button
-            onClick={toggleTheme}
-            className="bg-button-bg hover:bg-button-hover text-button-text px-3 py-1 rounded font-semibold hover:opacity-90 transition"
-          >
-            {darkMode ? "Light Mode" : "Dark Mode"}
-          </button>
+          <div className="pr-4 md:pr-6">
+            <button
+              onClick={toggleTheme}
+              className="bg-button-bg hover:bg-button-hover text-button-text px-3 py-1 rounded font-semibold hover:opacity-90 transition"
+            >
+              {darkMode ? "Light Mode" : "Dark Mode"}
+            </button>
+          </div>
         </header>
 
         {/* Page content */}

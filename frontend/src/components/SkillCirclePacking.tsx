@@ -30,7 +30,7 @@ export default function SkillCirclePacking() {
 
         const containerWidth = svgRef.current.parentElement?.clientWidth || 1200;
         const width = Math.max(containerWidth, MIN_SIZE);
-        const height = width; // keep it square
+        const height = width;
 
         // Prepare hierarchical data
         const data = {
@@ -78,7 +78,8 @@ export default function SkillCirclePacking() {
         //     .select<SVGSVGElement, unknown>("svg")
             .attr('width', width)
             .attr('height', height)
-            .attr('viewBox', `0 0 ${width} ${height}`);
+            .attr('viewBox', `0 0 ${width} ${height}`)
+            .attr("preserveAspectRatio", "xMidYMid meet");
             // .style('background', '#f0f0f0'); // using container styling instead
 
         const nodes = svg
@@ -218,15 +219,16 @@ export default function SkillCirclePacking() {
   
     // text-secondary font-bold mb-4 text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl p-2
     return (
-        <div className="bg-graph-bg shadow rounded-lg p-6 w-full min-w-0">
-        <h2 className="text-tertiary mb-4 text-2xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-3xl p-2">Building Design Skills by Primary Sector</h2>
-            <div className="w-full overflow-x-auto px-2 max-w-full">
-                <svg
-                    ref={svgRef}
-                    className="h-[1100px]block"
-                    style={{ minWidth: "1000px" }}
-                />
+        <div className="bg-graph-bg shadow rounded-lg p-3 sm:p-4 md:p-6 w-full min-w-0">
+            <h2 className="text-tertiary mb-4 text-2xl lg:text-3xl p-2">
+                Building Design Skills by Primary Sector
+            </h2>
+
+            <div className="w-full overflow-x-auto">
+                <div className="min-w-maxflex justify-center">
+                <svg ref={svgRef} className="block" />
+                </div>
             </div>
         </div>
-    );
+    ); 
 }

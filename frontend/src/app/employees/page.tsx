@@ -83,7 +83,7 @@ export default function EmployeesPage() {
             <tr>
               <th className="px-6 py-3">ID</th>
               <th className="px-6 py-3">Business Area</th>
-              <th className="px-6 py-3">Dicipline</th>
+              <th className="px-6 py-3">Discipline</th>
               <th className="px-6 py-3">Name</th>
               <th className="px-6 py-3">Role</th>
               <th className="px-6 py-3">Employment History</th>
