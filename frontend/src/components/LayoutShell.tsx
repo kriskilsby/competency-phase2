@@ -1,11 +1,14 @@
 // frontend/src/components/LayoutShell.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useOverlay } from "@/hooks/useOverlay";
 
 export default function LayoutShell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const sidebarRef = useRef<HTMLElement>(null);
 
   // Initialize dark mode from localStorage
   useEffect(() => {
@@ -45,11 +48,27 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useOverlay(sidebarOpen, () => setSidebarOpen(false));
+
+  useEffect(() => {
+    if (sidebarOpen) {
+      // Focus first link in sidebar
+      const firstLink = sidebarRef.current?.querySelector("a");
+      firstLink?.focus();
+    } else {
+      // Return focus to hamburger
+      buttonRef.current?.focus();
+    }
+  }, [sidebarOpen]);
+
   return (
     <div className="flex min-h-screen">
 
       {/* Sidebar */}
       <aside
+        id="sidebar"
+        ref={sidebarRef}
+        aria-hidden={!sidebarOpen}
         className={`fixed inset-y-0 left-0 z-50 w-fit bg-sidebar text-sidebar-text text-lg p-4 transform
         md:translate-x-0 transition-transform duration-300 ease-in-out
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
@@ -66,12 +85,19 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
         </nav>
       </aside>
 
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm md:hidden transition-opacity duration-300"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Main content */}
       <div className="flex-1 flex flex-col md:ml-64 min-w-0">
 
         {/* Header */}
         <header
-          className={`sticky top-0 z-40 flex items-center justify-between bg-background dark:bg-graphite-900 transition-all duration-300 px-4 sm:px-5 md:px-6
+          className={`sticky top-0 z-40 flex items-center justify-between bg-background dark:bg-graphite-900 transition-all duration-1500 px-4 sm:px-5 md:px-6
           ${scrolled ? "py-2 shadow-md" : "py-4"}`}
         >
           
@@ -79,6 +105,10 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
           <div className="flex items-center space-x-4 pl-04 md:pl-6">
             {/* Hamburger for mobile */}
             <button
+              ref={buttonRef}
+              aria-label="Toggle menu"
+              aria-expanded={sidebarOpen}
+              aria-controls="sidebar"
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="md:hidden text-primary hover:text-primary-hover"
             >
@@ -89,8 +119,8 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
 
             {/* Title */}
             <h1
-              className={`text-primary font-medium transition-all duration-1000
-              ${scrolled ? "text-2xl md:text-4xl" : "text-4xl md:text-5xl lg:text-6xl xl:text-7xl"} p-2`}
+              className={`text-primary font-medium transition-all duration-1500
+              ${scrolled ? "text-1xl sm:text-2xl md:text-3xl lg:text-4xl" : "text-4xl md:text-5xl lg:text-6xl xl:text-7xl"} p-2`}
             >
               Competency Platform
             </h1>
