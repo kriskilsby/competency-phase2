@@ -38,8 +38,8 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
       const scrollY = window.scrollY;
 
       setScrolled(prev => {
-        if (!prev && scrollY > 40) return true;   // shrink
-        if (prev && scrollY < 10) return false;   // expand
+        if (!prev && scrollY > 80) return true;   // shrink
+        if (prev && scrollY < 20) return false;   // expand
         return prev; // no change → prevents flicker
       });
     };
@@ -110,7 +110,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
               aria-expanded={sidebarOpen}
               aria-controls="sidebar"
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="md:hidden text-primary hover:text-primary-hover"
+              className="md:hidden text-primary hover:text-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -119,7 +119,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
 
             {/* Title */}
             <h1
-              className={`text-primary font-medium transition-all duration-1500
+              className={`text-primary font-medium transition-all duration-700
               ${scrolled ? "text-1xl sm:text-2xl md:text-3xl lg:text-4xl" : "text-4xl md:text-5xl lg:text-6xl xl:text-7xl"} p-2`}
             >
               Competency Platform
