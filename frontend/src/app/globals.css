@@ -129,7 +129,7 @@
   /* Table */
   --color-table-bg: var(--color-graphite-200);
   --color-table-border: var(--color-graphite-400);
-  --color-table-header-bg: var(--color-powder-blush-700);
+  --color-table-header-bg: var(--color-stormy-teal-800);
   --color-table-header-text: var(--color-graphite-100);
   --color-table-row-text: var(--color-graphite-950);
   --color-table-row-hover: var(--color-celadon-200);
@@ -178,9 +178,9 @@
   --color-graph-bg: var(--color-graphite-800);
 
     /* Table */
-  --color-table-bg: var(--color-graphite-600);
+  --color-table-bg: var(--color-graphite-500);
   --color-table-border: var(--color-graphite-800);
-  --color-table-header-bg: var(--color-powder-blush-800);
+  --color-table-header-bg: var(--color-stormy-teal-800);
   --color-table-header-text: var(--color-graphite-200);
   --color-table-row-text: var(--color-graphite-100);
   --color-table-row-hover: var(--color-celadon-700);
