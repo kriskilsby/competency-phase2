@@ -132,7 +132,7 @@
   --color-table-header-bg: var(--color-stormy-teal-800);
   --color-table-header-text: var(--color-graphite-100);
   --color-table-row-text: var(--color-graphite-950);
-  --color-table-row-hover: var(--color-celadon-200);
+  --color-table-row-hover: var(--color-celadon-300);
 
   /* Search input */
   --color-input-bg: var(--color-graphite-100);
