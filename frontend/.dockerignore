@@ -1,6 +1,16 @@
+# frontend/.dockerignore
 node_modules
 .next
 npm-debug.log
 Dockerfile
 .git
 .gitignore
+
+.env*
+dist
+build
+coverage
+*.md
+
+.env*
+.next
