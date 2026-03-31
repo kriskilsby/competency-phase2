@@ -1,57 +1,46 @@
 # .github/workflows/deploy.yml
-name: Deploy Competency Phase 2
+name: Deploy Competency Phase2 to Hetzner
 
 on:
   push:
     branches:
-      - main
+      - main  # Deploy only on pushes to main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo (required for workflow context)
+      # 1️⃣ Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup SSH agent using GitHub secret
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.7.0
+      # 2️⃣ Setup SSH key (passphrase-free)
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
 
-      # 3️⃣ Add server to known_hosts (avoids prompt)
-      - name: Add server to known_hosts
+      # 3️⃣ Deploy via SSH to Hetzner server
+      - name: Deploy to Hetzner server
         run: |
-          ssh-keyscan -H 91.99.231.131 >> ~/.ssh/known_hosts
-
-      # 4️⃣ Deploy on server
-      - name: Deploy to server
-        run: |
-          ssh root@91.99.231.131 << 'EOF'
-            set -e
-
-            echo "📦 Navigating to project..."
+          set -e  # Exit on first error
+          ssh -o StrictHostKeyChecking=no root@91.99.231.131 << 'EOF'
+            echo "🚀 Starting deployment on Hetzner server..."
             cd ~/competency-phase2
 
-            echo "🔄 Pulling latest code..."
-            git pull origin main
+            echo "💻 Pulling latest code from GitHub"
+            git fetch origin
+            git reset --hard origin/main
 
-            echo "🧹 Cleaning old containers..."
+            echo "📦 Stopping old containers"
             docker compose down
 
-            echo "🔨 Building images..."
+            echo "🔧 Building new Docker images"
             docker compose -f docker-compose.yml build
 
-            echo "🚀 Starting containers..."
+            echo "⚡ Starting containers"
             docker compose -f docker-compose.yml up -d
 
-            echo "🧽 Cleaning unused Docker resources (safe)..."
-            docker system prune -f --filter "until=24h"
-
-            echo "📊 Running containers:"
-            docker ps
-
-            echo "✅ Deployment complete"
+            echo "✅ Deployment complete!"
           EOF
