@@ -33,8 +33,9 @@ jobs:
             git fetch origin
             git reset --hard origin/main
 
-            echo "🔄 Building and updating Docker containers (idempotent)"
-            docker compose -f docker-compose.yml up -d --build
+            echo "📦 Building and recreating Docker containers"
+            # Rebuild images and force container recreation to pick up all changes
+            docker compose -f docker-compose.yml up -d --build --force-recreate
 
             echo "✅ Deployment complete!"
           EOF
