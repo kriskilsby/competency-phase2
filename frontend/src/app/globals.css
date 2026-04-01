@@ -1,3 +1,4 @@
+/* frontend/src/app/globals.css */
 @import "tailwindcss";
 
 /* :root {
@@ -41,7 +42,7 @@
   --color-lavender-blush-700: #653434;
   --color-lavender-blush-800: #432323;
   --color-lavender-blush-900: #221111;
-  --color-lavender-blush-950: #180c0c;
+  --color-lavender-blush-950: #180c0c; */
 
   --color-sunflower-gold-50: #fef6e7;
   --color-sunflower-gold-100: #fdedce;
@@ -53,7 +54,7 @@
   --color-sunflower-gold-700: #936206;
   --color-sunflower-gold-800: #624104;
   --color-sunflower-gold-900: #312102;
-  --color-sunflower-gold-950: #221701; */
+  --color-sunflower-gold-950: #221701;
 
   --color-stormy-teal-50: #e5fbff;
   --color-stormy-teal-100: #ccf6ff;
@@ -129,7 +130,7 @@
   /* Table */
   --color-table-bg: var(--color-graphite-200);
   --color-table-border: var(--color-graphite-400);
-  --color-table-header-bg: var(--color-stormy-teal-800);
+  --color-table-header-bg: var(--color-sunflower-gold-800);
   --color-table-header-text: var(--color-graphite-100);
   --color-table-row-text: var(--color-graphite-950);
   --color-table-row-hover: var(--color-celadon-300);
@@ -180,7 +181,7 @@
     /* Table */
   --color-table-bg: var(--color-graphite-500);
   --color-table-border: var(--color-graphite-800);
-  --color-table-header-bg: var(--color-stormy-teal-800);
+  --color-table-header-bg: var(--color-sunflower-gold-800);
   --color-table-header-text: var(--color-graphite-200);
   --color-table-row-text: var(--color-graphite-100);
   --color-table-row-hover: var(--color-celadon-700);

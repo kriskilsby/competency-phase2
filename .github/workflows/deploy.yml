@@ -33,14 +33,17 @@ jobs:
             git fetch origin
             git reset --hard origin/main
 
+            echo "🧹 Cleaning up old Docker images and containers"
+            docker system prune -f
+
             echo "📦 Stopping old containers"
             docker compose down
 
             echo "🔧 Building new Docker images"
-            docker compose -f docker-compose.yml build
+            docker compose build --no-cache
 
             echo "⚡ Starting containers"
-            docker compose -f docker-compose.yml up -d
+            docker compose up -d
 
             echo "✅ Deployment complete at $(date)!"
           EOF
