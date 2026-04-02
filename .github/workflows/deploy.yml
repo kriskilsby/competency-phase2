@@ -35,6 +35,7 @@ jobs:
             # git fetch origin
             # git reset --hard origin/main
             git pull origin main
+            git clean -fd # 🔥 removes any untracked/stale files
 
             # 3️⃣ Make sure no old frontend volume mounts are lingering
             docker compose -f docker-compose.yml down --remove-orphans
