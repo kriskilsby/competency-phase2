@@ -24,28 +24,42 @@ jobs:
       # 3️⃣ Deploy via SSH to Hetzner server
       - name: Deploy to Hetzner server
         run: |
-          set -e  # Exit on first error
+          set -e
           ssh -o StrictHostKeyChecking=no root@91.99.231.131 << 'EOF'
             echo "🚀 Starting deployment on Hetzner server..."
-            
-            # 1️⃣ Go to project root
-            cd ~/competency-phase2
 
-            # 2️⃣ Pull latest code
-            git fetch origin
-            git reset --hard origin/main
-            git clean -fd
+            # 1️⃣ Go to root
+            cd ~
 
-            # 3️⃣ Make sure no old frontend volume mounts are lingering
+            # 2️⃣ Remove old repo
+            rm -rf competency-phase2
+
+            # 3️⃣ Clone fresh repo
+            git clone git@github.com:kriskilsby/competency-phase2.git
+
+            # 4️⃣ Enter repo
+            cd competency-phase2
+
+            # 5️⃣ Ensure correct branch
+            git checkout main
+
+            # 🔍 Debug (leave this in for now)
+            echo "🧠 Latest commit:"
+            git log -1 --oneline
+
+            echo "🎯 CSS check:"
+            grep graphite frontend/src/app/globals.css || echo "CSS NOT UPDATED"
+
+            # 6️⃣ Stop containers
             docker compose -f docker-compose.yml down --remove-orphans
 
-            # 4️⃣ Build fresh images (no cache)
+            # 7️⃣ Build fresh
             docker compose -f docker-compose.yml build --no-cache
 
-            # 5️⃣ Start containers in detached mode
+            # 8️⃣ Start
             docker compose -f docker-compose.yml up -d
 
-            # 6️⃣ Clean up dangling images (optional, lighter than prune -f)
+            # 9️⃣ Cleanup
             docker image prune -f
 
             echo "✅ Deployment complete at $(date)!"
