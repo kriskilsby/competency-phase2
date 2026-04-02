@@ -138,7 +138,7 @@
   /* Search input */
   --color-input-bg: var(--color-graphite-100);
   --color-input-border: var(--color-graphite-300);
-  --color-input-text: var(--color-graphite-900);
+  --color-input-text: var(--color-powder-blush-900);
   --color-input-placeholder: var(--color-graphite-400);
   --color-input-focus: var(--color-celadon-500);
 
@@ -181,7 +181,7 @@
     /* Table */
   --color-table-bg: var(--color-graphite-500);
   --color-table-border: var(--color-graphite-800);
-  --color-table-header-bg: var(--color-graphite-800);
+  --color-table-header-bg: var(--color-powder-blush-800);
   --color-table-header-text: var(--color-graphite-200);
   --color-table-row-text: var(--color-graphite-100);
   --color-table-row-hover: var(--color-celadon-700);
