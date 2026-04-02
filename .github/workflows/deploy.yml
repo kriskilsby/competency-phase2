@@ -11,45 +11,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the repository (for workflow context)
+      # 1️⃣ Checkout the repository (for GitHub Actions context)
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup SSH key for server access
+      # 2️⃣ Setup SSH key
       - name: Set up SSH key
         uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
 
-      # 3️⃣ Deploy to Hetzner server
+      # 3️⃣ Deploy via SSH to Hetzner server
       - name: Deploy to Hetzner server
         run: |
-          set -e  # Stop on first error
+          set -e  # Exit on first error
           ssh -o StrictHostKeyChecking=no root@91.99.231.131 << 'EOF'
             echo "🚀 Starting deployment on Hetzner server..."
 
-            # 1️⃣ Go to project root (create if missing)
-            mkdir -p ~/competency-phase2
+            # 1️⃣ Go to project root
             cd ~/competency-phase2
 
-            # 2️⃣ Pull latest code safely
+            # 2️⃣ Pull latest code and clean any untracked files
             git fetch origin
             git reset --hard origin/main
             git clean -fd
 
-            echo "🧠 Latest commit:"
-            git log -1 --oneline
-
-            # 3️⃣ Make sure no old volumes are lingering
+            # 3️⃣ Stop any old containers
             docker compose -f docker-compose.yml down --remove-orphans
 
-            # 4️⃣ Rebuild images fresh with no cache
+            # 4️⃣ Build fresh images without cache
             docker compose -f docker-compose.yml build --no-cache
 
-            # 5️⃣ Start containers in detached mode
+            # 5️⃣ Start containers
             docker compose -f docker-compose.yml up -d
 
-            # 6️⃣ Optional: remove dangling images
+            # 6️⃣ Optional: clean up dangling images
             docker image prune -f
 
             echo "✅ Deployment complete at $(date)!"
