@@ -32,10 +32,9 @@ jobs:
             cd ~/competency-phase2
 
             # 2️⃣ Pull latest code
-            # git fetch origin
-            # git reset --hard origin/main
-            git pull origin main
-            git clean -fd # 🔥 removes any untracked/stale files
+            git fetch origin
+            git reset --hard origin/main
+            git clean -fd
 
             # 3️⃣ Make sure no old frontend volume mounts are lingering
             docker compose -f docker-compose.yml down --remove-orphans
