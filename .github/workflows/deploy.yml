@@ -11,55 +11,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the repository
+      # 1️⃣ Checkout the repository (for workflow context)
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup SSH key (passphrase-free)
+      # 2️⃣ Setup SSH key for server access
       - name: Set up SSH key
         uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
 
-      # 3️⃣ Deploy via SSH to Hetzner server
+      # 3️⃣ Deploy to Hetzner server
       - name: Deploy to Hetzner server
         run: |
-          set -e
+          set -e  # Stop on first error
           ssh -o StrictHostKeyChecking=no root@91.99.231.131 << 'EOF'
             echo "🚀 Starting deployment on Hetzner server..."
 
-            # 1️⃣ Go to root
-            cd ~
+            # 1️⃣ Go to project root (create if missing)
+            mkdir -p ~/competency-phase2
+            cd ~/competency-phase2
 
-            # 2️⃣ Remove old repo
-            rm -rf competency-phase2
+            # 2️⃣ Pull latest code safely
+            git fetch origin
+            git reset --hard origin/main
+            git clean -fd
 
-            # 3️⃣ Clone fresh repo
-            git clone git@github.com:kriskilsby/competency-phase2.git
-
-            # 4️⃣ Enter repo
-            cd competency-phase2
-
-            # 5️⃣ Ensure correct branch
-            git checkout main
-
-            # 🔍 Debug (leave this in for now)
             echo "🧠 Latest commit:"
             git log -1 --oneline
 
-            echo "🎯 CSS check:"
-            grep graphite frontend/src/app/globals.css || echo "CSS NOT UPDATED"
-
-            # 6️⃣ Stop containers
+            # 3️⃣ Make sure no old volumes are lingering
             docker compose -f docker-compose.yml down --remove-orphans
 
-            # 7️⃣ Build fresh
+            # 4️⃣ Rebuild images fresh with no cache
             docker compose -f docker-compose.yml build --no-cache
 
-            # 8️⃣ Start
+            # 5️⃣ Start containers in detached mode
             docker compose -f docker-compose.yml up -d
 
-            # 9️⃣ Cleanup
+            # 6️⃣ Optional: remove dangling images
             docker image prune -f
 
             echo "✅ Deployment complete at $(date)!"
