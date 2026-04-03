@@ -11,58 +11,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the repository (for GitHub Actions context)
+      # Checkout the repository (for GitHub Actions context)
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup SSH key
+      # Setup SSH key
       - name: Set up SSH key
         uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
 
-      # 3️⃣ Deploy via SSH to Hetzner server
+      # Deploy via SSH to Hetzner server
       - name: Deploy to Hetzner server
         run: |
           set -e  # Exit on first error
           ssh -o StrictHostKeyChecking=no root@91.99.231.131 << 'EOF'
             echo "🚀 Starting deployment on Hetzner server..."
 
-            # 1️⃣ Go to project root
+            # Go to project root
             cd ~/competency-phase2
 
-            # 2️⃣ Pull latest code and clean any untracked files
-            # git fetch origin
-            # git reset --hard origin/main
-            # git clean -fd
-
-            echo "📍 Current directory:"
-            pwd
-
-            echo "📦 Before git:"
-            git log -1 --oneline || echo "No repo?"
-
-            echo "⬇️ Fetching..."
-            git fetch origin || echo "❌ FETCH FAILED"
-
-            echo "🔄 Resetting..."
-            git reset --hard origin/main || echo "❌ RESET FAILED"
-
-            echo "📦 After git:"
-            git log -1 --oneline
-
-            echo "🎯 CSS check:"
-            grep graphite frontend/src/app/globals.css || echo "CSS NOT FOUND"
-
+            # Pull latest code and clean any untracked files
+            git fetch origin
+            git reset --hard origin/main
+            git clean -fd
 
             # 3️⃣ Stop any old containers
-            docker compose -f docker-compose.yml down --remove-orphans
+            # docker compose -f docker-compose.yml down --remove-orphans
+            docker compose down --remove-orphans 
 
             # 4️⃣ Build fresh images without cache
-            docker compose -f docker-compose.yml build --no-cache
+            # docker compose -f docker-compose.yml build --no-cache
+            docker compose build --no-cache
 
             # 5️⃣ Start containers
-            docker compose -f docker-compose.yml up -d
+            # docker compose -f docker-compose.yml up -d
+            docker compose up -d
 
             # 6️⃣ Optional: clean up dangling images
             docker image prune -f
