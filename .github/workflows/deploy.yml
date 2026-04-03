@@ -32,9 +32,28 @@ jobs:
             cd ~/competency-phase2
 
             # 2️⃣ Pull latest code and clean any untracked files
-            git fetch origin
-            git reset --hard origin/main
-            git clean -fd
+            # git fetch origin
+            # git reset --hard origin/main
+            # git clean -fd
+
+            echo "📍 Current directory:"
+            pwd
+
+            echo "📦 Before git:"
+            git log -1 --oneline || echo "No repo?"
+
+            echo "⬇️ Fetching..."
+            git fetch origin || echo "❌ FETCH FAILED"
+
+            echo "🔄 Resetting..."
+            git reset --hard origin/main || echo "❌ RESET FAILED"
+
+            echo "📦 After git:"
+            git log -1 --oneline
+
+            echo "🎯 CSS check:"
+            grep graphite frontend/src/app/globals.css || echo "CSS NOT FOUND"
+
 
             # 3️⃣ Stop any old containers
             docker compose -f docker-compose.yml down --remove-orphans
