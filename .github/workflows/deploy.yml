@@ -37,16 +37,16 @@ jobs:
             git clean -fd
 
             # 3️⃣ Stop any old containers
-            # docker compose -f docker-compose.yml down --remove-orphans
-            docker compose down --remove-orphans 
+            docker compose -f docker-compose.yml down --remove-orphans
+            # docker compose down --remove-orphans 
 
             # 4️⃣ Build fresh images without cache
-            # docker compose -f docker-compose.yml build --no-cache
-            docker compose build --no-cache
+            docker compose -f docker-compose.yml build --no-cache
+            # docker compose build --no-cache
 
             # 5️⃣ Start containers
-            # docker compose -f docker-compose.yml up -d
-            docker compose up -d
+            docker compose -f docker-compose.yml up -d
+            # docker compose up -d
 
             # 6️⃣ Optional: clean up dangling images
             docker image prune -f
