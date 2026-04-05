@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useOverlay } from "@/hooks/useOverlay";
+import Image from "next/image";
 
 export default function LayoutShell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -97,12 +98,14 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
 
         {/* Header */}
         <header
-          className={`sticky top-0 z-40 flex items-center justify-between bg-background dark:bg-graphite-900 transition-all duration-1500 px-4 sm:px-5 md:px-6
-          ${scrolled ? "py-2 shadow-md" : "py-4"}`}
+          className={`sticky top-0 z-40 flex items-center justify-between bg-background dark:bg-graphite-900 transition-all duration-300 px-4 sm:px-5 md:px-6
+          ${scrolled ? "py-2 shadow-md shadow-black/10" : "py-4 shadow-none"}`}
         >
           
           {/* Left: Hamburger + Title */}
-          <div className="flex items-center space-x-4 pl-04 md:pl-6">
+          <div className={`flex items-center pl-4 md:pl-6 transition-all duration-300 ${
+            scrolled ? "space-x-2" : "space-x-4"
+          }`}>
             {/* Hamburger for mobile */}
             <button
               ref={buttonRef}
@@ -115,15 +118,44 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
               <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
-            </button>
+            </button>  
+            
+            {/* Logo container */}
+            <div className="flex items-center h-full transition-all duration-300">
+
+              {/* Mobile: stacked logo */}
+              <Image
+                src={darkMode ? "/dark-stacked-logo.svg" : "/light-stacked-logo.svg"}
+                alt="SkillTrack logo"
+                width={50}
+                height={50}
+                className={`block md:hidden w-auto object-contain transition-all duration-500 ${
+                  scrolled ? "h-9" : "h-11"
+                }`}
+                priority
+              />
+
+              {/* Desktop: long logo */}
+              <Image
+                src={darkMode ? "/dark-long-logo.svg" : "/light-long-logo.svg"}
+                alt="SkillTrack logo"
+                width={200}
+                height={70}
+                className={`hidden md:block w-auto object-contain transition-all duration-500 ${
+                  scrolled ? "h-10 md:h-12" : "h-14 md:h-16"
+                }`}
+                priority
+              />
+
+            </div>
 
             {/* Title */}
-            <h1
+            {/* <h1
               className={`text-primary font-medium transition-all duration-700
               ${scrolled ? "text-1xl sm:text-2xl md:text-3xl lg:text-4xl" : "text-4xl md:text-5xl lg:text-6xl xl:text-7xl"} p-2`}
             >
               Competency Platform
-            </h1>
+            </h1> */}
           </div>
 
           {/* Right: Dark/Light toggle */}
